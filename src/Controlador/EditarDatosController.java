@@ -101,7 +101,7 @@ public class EditarDatosController {
         try (Connection conn = Conexion.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, usuarioActual.getId());
-            stmt.setString(2, password); // ⚠️ En producción, usa hashing
+            stmt.setString(2, password); 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1) > 0;
@@ -120,7 +120,7 @@ public class EditarDatosController {
             stmt.setString(2, apellido);
             stmt.setInt(3, dni);
             stmt.setString(4, correo);
-            stmt.setInt(5, usuarioActual.getId()); // idUsuario no cambia
+            stmt.setInt(5, usuarioActual.getId());
 
             int filas = stmt.executeUpdate();
             return filas > 0;

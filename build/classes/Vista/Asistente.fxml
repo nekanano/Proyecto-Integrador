@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="781.0" prefWidth="477.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.AsistenteController">
+   <children>
+      <!-- Header -->
+      <Pane prefHeight="120.0" prefWidth="477.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <Button fx:id="btnVolver" layoutX="430.0" layoutY="46.0" mnemonicParsing="false" onAction="#volverAlMenu" prefHeight="25.0" prefWidth="30.0" style="-fx-background-color: transparent;" text="◀" textFill="#555555">
+                <font>
+                    <Font name="Poppins SemiBold" size="16.0" />
+                </font>
+            </Button>
+            <Circle fill="#23AAFA" layoutX="60.0" layoutY="63.0" radius="24.0" />
+            <Label alignment="CENTER" layoutX="55.0" layoutY="49.0" text="?" textFill="WHITE">
+               <font>
+                  <Font name="Poppins Bold" size="20.0" />
+               </font>
+            </Label>
+            
+            <!-- Título -->
+            <Label layoutX="110.0" layoutY="45.0" text="SISOCIO" textFill="#2C3E50">
+               <font>
+                  <Font name="Poppins Bold" size="24.0" />
+               </font>
+            </Label>
+            
+            <!-- Subtítulo -->
+            <Label layoutX="110.0" layoutY="80.0" prefWidth="320.0" text="¿En qué puedo ayudarte hoy?" textFill="#555555">
+               <font>
+                  <Font name="Poppins Regular" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+
+      <!-- Área de chat (con scroll) -->
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER" layoutX="31.0" layoutY="121.0" prefHeight="540.0" prefWidth="415.0" styleClass="transparent-scroll" stylesheets="@../Utilidad/scroll-transparente.css" vbarPolicy="NEVER">
+         <content>
+            <VBox fx:id="contenedorMensajes" spacing="12" style="-fx-padding: 16;">
+            </VBox>
+         </content>
+      </ScrollPane>
+
+      <!-- Barra de entrada -->
+      <Pane layoutY="671.0" prefHeight="80.0" prefWidth="477.0" style="-fx-background-color: #FFFFFF; -fx-border-top-color: #e0e0e0; -fx-border-top-width: 1;">
+         <children>
+            <TextField fx:id="txtMensaje" layoutX="24.0" layoutY="16.0" prefHeight="40.0" prefWidth="360.0" promptText="Escribe tu pregunta..." style="-fx-prompt-text-fill: #A0A0A0; -fx-background-radius: 20; -fx-border-radius: 20; -fx-border-color: #e0e0e0;">
+               <font>
+                  <Font name="Poppins Regular" size="14.0" />
+               </font>
+            </TextField>
+            <Button fx:id="btnEnviar" layoutX="400.0" layoutY="16.0" mnemonicParsing="false" onAction="#enviarMensaje" prefHeight="40.0" prefWidth="48.0" style="-fx-background-color: #23AAFA; -fx-background-radius: 50; -fx-border-radius: 50;">
+               <font>
+                  <Font name="Poppins SemiBold" size="14.0" />
+               </font>
+               <graphic>
+                  <Label rotate="45" text="➤" textFill="WHITE">
+                     <font>
+                        <Font name="Poppins Bold" size="16.0" />
+                     </font>
+                  </Label>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+
+      <!-- Sugerencias rápidas (opcionales, pero muy amigables) -->
+      <VBox fx:id="contenedorSugerencias" layoutX="24.0" layoutY="620.0" spacing="8" visible="false">
+         <children>
+            <Label text="Preguntas frecuentes:" textFill="#999999">
+               <font>
+                  <Font name="Poppins Italic" size="12.0" />
+               </font>
+            </Label>
+            <Label text="• ¿Cómo programo una cita?" textFill="#23AAFA" underline="true">
+               <font>
+                  <Font name="Poppins Regular" size="13.0" />
+               </font>
+            </Label>
+            <Label text="• ¿Puedo cambiar de sede?" textFill="#23AAFA" underline="true">
+               <font>
+                  <Font name="Poppins Regular" size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

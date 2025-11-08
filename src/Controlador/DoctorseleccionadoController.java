@@ -213,16 +213,13 @@ public class DoctorseleccionadoController {
         String update = "UPDATE horarios_disponibles SET estado = 'reservado' WHERE id_horario = ?";
 
         try (Connection conn = Conexion.getConnection()) {
-            // 👇 Iniciar transacción
             conn.setAutoCommit(false);
 
-            // 1. Actualizar horario
             try (PreparedStatement stmt1 = conn.prepareStatement(update)) {
                 stmt1.setInt(1, idHorarioSeleccionado);
                 stmt1.executeUpdate();
             }
 
-            // 2. Insertar cita
             try (PreparedStatement stmt2 = conn.prepareStatement(insertCita)) {
                 stmt2.setInt(1, idPacienteActual);
                 stmt2.setInt(2, idMedico);
@@ -232,10 +229,8 @@ public class DoctorseleccionadoController {
                 stmt2.executeUpdate();
             }
 
-            // 👇 Confirmar transacción
             conn.commit();
 
-            // Éxito
             javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
             alert.setTitle("Éxito");
             alert.setHeaderText(null);
@@ -247,7 +242,6 @@ public class DoctorseleccionadoController {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // 👇 Revertir cambios si hay error
             try (Connection conn = Conexion.getConnection()) {
                 conn.rollback();
             } catch (SQLException ex) {
