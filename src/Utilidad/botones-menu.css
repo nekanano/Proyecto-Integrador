@@ -1,0 +1,17 @@
+.boton-menu {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #23AAFA;
+    -fx-border-radius: 12;
+    -fx-text-fill: #23AAFA;
+    -fx-font-family: "Poppins";
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+}
+
+.boton-menu:hover {
+    -fx-background-color: #23AAFA;
+    -fx-text-fill: #FFFFFF;
+    -fx-border-color: #23AAFA;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+}

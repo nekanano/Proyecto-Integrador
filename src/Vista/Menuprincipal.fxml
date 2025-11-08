@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="781.0" prefWidth="477.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.MenuprincipalController">
+   <children>
+      <AnchorPane fx:id="contenidoPrincipal" prefHeight="701.0" prefWidth="477.0">
+         <children>
+            <Label layoutX="364.0" layoutY="29.0" text="Principal" textFill="#2C3E50">
+               <font>
+                  <Font name="Poppins Medium" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="91.0" text="Bienvenido" textFill="#2C3E50">
+               <font>
+                  <Font name="Poppins Bold" size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtnombre" layoutX="37.0" layoutY="148.0" text="Label" textFill="#555555">
+               <font>
+                  <Font name="Poppins Regular" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="37.0" layoutY="192.0" text="Sede Actual:" textFill="#2C3E50">
+               <font>
+                  <Font name="Poppins Medium" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="txtsede" layoutX="191.0" layoutY="192.0" text="Label" textFill="#555555">
+               <font>
+                  <Font name="Poppins Regular" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnregistrarcita" layoutX="57.0" layoutY="319.0" mnemonicParsing="false" onAction="#abrirRegistrarCita" prefHeight="44.0" prefWidth="160.0" styleClass="boton-menu" stylesheets="@../Utilidad/botones-menu.css" text="Registrar cita">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnGestionarCitas" layoutX="261.0" layoutY="319.0" mnemonicParsing="false" onAction="#abrirMisCitas" prefHeight="44.0" prefWidth="160.0" styleClass="boton-menu" stylesheets="@../Utilidad/botones-menu.css" text="Gestionar citas">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="57.0" layoutY="435.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="160.0" styleClass="boton-menu" stylesheets="@../Utilidad/botones-menu.css" text="Ver historial médico">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="261.0" layoutY="435.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="160.0" styleClass="boton-menu" stylesheets="@../Utilidad/botones-menu.css" text="Asistente inteligente">
+               <font>
+                  <Font name="Poppins Medium" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnCambiarSede" layoutX="36.0" layoutY="237.0" mnemonicParsing="false" onAction="#abrirGestionSedes" prefHeight="28.0" prefWidth="129.0" styleClass="boton-menu" stylesheets="@../Utilidad/botones-menu.css" text="Cambiar sede">
+               <font>
+                  <Font name="Poppins Medium" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <fx:include fx:id="navbar" layoutY="701.0" source="Navbar.fxml" />  
+   </children> 
+</AnchorPane>

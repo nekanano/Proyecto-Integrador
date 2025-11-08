@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="781.0" prefWidth="477.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.CrearcuentaController">
+   <children>
+      <Pane layoutX="-3.0" prefHeight="257.0" prefWidth="477.0" style="-fx-background-color: #FFFFFF;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="84.0" layoutY="198.0" prefHeight="42.0" prefWidth="310.0" text="Crear Cuenta" textFill="#2C3E50">
+               <font>
+                  <Font name="Poppins Bold" size="32.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+
+      <!-- DNI -->
+      <TextField fx:id="txtDni" layoutX="85.0" layoutY="275.0" prefHeight="40.0" prefWidth="310.0" promptText="DNI" style="-fx-prompt-text-fill: #A0A0A0;">
+         <font>
+            <Font name="Poppins Regular" size="14.0" />
+         </font>
+      </TextField>
+
+      <!-- Nombre -->
+      <TextField fx:id="txtNombre" layoutX="85.0" layoutY="325.0" prefHeight="40.0" prefWidth="310.0" promptText="Nombre" style="-fx-prompt-text-fill: #A0A0A0;">
+         <font>
+            <Font name="Poppins Regular" size="14.0" />
+         </font>
+      </TextField>
+
+      <!-- Apellido -->
+      <TextField fx:id="txtApellido" layoutX="85.0" layoutY="375.0" prefHeight="40.0" prefWidth="310.0" promptText="Apellido" style="-fx-prompt-text-fill: #A0A0A0;">
+         <font>
+            <Font name="Poppins Regular" size="14.0" />
+         </font>
+      </TextField>
+
+      <!-- Correo -->
+      <TextField fx:id="txtCorreo" layoutX="85.0" layoutY="425.0" prefHeight="40.0" prefWidth="310.0" promptText="Correo electrónico" style="-fx-prompt-text-fill: #A0A0A0;">
+         <font>
+            <Font name="Poppins Regular" size="14.0" />
+         </font>
+      </TextField>
+
+      <!-- Contraseña -->
+      <PasswordField fx:id="txtPassword" layoutX="85.0" layoutY="475.0" prefHeight="40.0" prefWidth="310.0" promptText="Contraseña" style="-fx-prompt-text-fill: #A0A0A0;">
+         <font>
+            <Font name="Poppins Regular" size="14.0" />
+         </font>
+      </PasswordField>
+
+      <!-- Botón Registrar -->
+      <Button fx:id="btnRegistrar" layoutX="175.0" layoutY="540.0" mnemonicParsing="false" onAction="#handleRegistro" prefHeight="42.0" prefWidth="127.0" style="-fx-background-color: #23AAFA; -fx-text-fill: #FFFFFF; -fx-border-radius: 8; -fx-background-radius: 8;" text="Registrarse">
+         <font>
+            <Font name="Poppins SemiBold" size="14.0" />
+         </font>
+      </Button>
+
+      <!-- Enlace: ¿Ya tienes cuenta? Inicia sesión -->
+      <Label layoutX="122.0" layoutY="600.0" prefHeight="20.0" prefWidth="180.0" text="¿Ya tienes cuenta?" textFill="#555555">
+         <font>
+            <Font name="Poppins Regular" size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblLogin" layoutX="277.0" layoutY="600.0" prefHeight="20.0" prefWidth="90.0" text="Inicia sesión" textFill="#23AAFA" underline="true">
+         <font>
+            <Font name="Poppins Medium" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
