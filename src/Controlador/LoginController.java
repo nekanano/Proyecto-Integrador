@@ -79,7 +79,7 @@ public class LoginController {
             if (conn == null) return null;
 
             stmt.setString(1, correo);
-            stmt.setString(2, password); // ⚠️ Recuerda: en producción usa hashing
+            stmt.setString(2, password);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {

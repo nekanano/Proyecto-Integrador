@@ -31,16 +31,13 @@ public class ReprogramarcitaController {
 
     private ActualizarCallback callback;
     
-    // Datos de la cita original
     private Cita citaOriginal;
     private int idPacienteActual;
 
-    // Fecha y hora seleccionadas
     private LocalDate fechaSeleccionada;
     private LocalTime horaSeleccionada;
     private int idHorarioSeleccionado;
 
-    // Inicializa con los datos de la cita a reprogramar
     public void inicializar(Cita cita, int idPaciente, ActualizarCallback callback) {
         this.citaOriginal = cita;
         this.idPacienteActual = idPaciente;

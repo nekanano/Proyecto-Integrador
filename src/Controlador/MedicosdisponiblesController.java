@@ -168,7 +168,6 @@ public class MedicosdisponiblesController {
     }
     
     private void abrirDisponibilidadMedico(int idMedico, String nombre, String especialidad, String sede, int idPaciente) {
-        // ✅ Navegamos en la misma ventana
         Navegacion.cambiarAEscenaConControlador(
             stageActual,
             "/Vista/Doctorseleccionado.fxml",

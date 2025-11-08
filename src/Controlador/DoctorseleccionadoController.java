@@ -127,7 +127,6 @@ public class DoctorseleccionadoController {
         btn.setOnAction(e -> {
             fechaSeleccionada = fecha;
             cargarHorasDisponibles(fecha);
-            // Reset estilo de otros botones
             for (javafx.scene.Node n : contenedorFechas.getChildren()) {
                 if (n instanceof Button) {
                     n.setStyle("-fx-background-color: #e0f0ff; -fx-border-color: #a0d0ff; -fx-border-radius: 8; -fx-background-radius: 8;");

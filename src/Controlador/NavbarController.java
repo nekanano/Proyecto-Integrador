@@ -38,7 +38,6 @@ public class NavbarController {
         });
     }
 
-    // Métodos para establecer los callbacks
     public void setOnHomeClick(Runnable callback) {
         this.onHomeClick = callback;
     }

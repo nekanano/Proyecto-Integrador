@@ -135,8 +135,6 @@ public class PerfilController {
 
     @FXML
     private void gestionarNotificaciones() {
-        // Por ahora, abre una vista simple
-        //Navegacion.cambiarAEscena(stageActual, "/Vista/Notificaciones.fxml");
     }
 
     @FXML
@@ -153,7 +151,6 @@ public class PerfilController {
         java.util.Optional<javafx.scene.control.ButtonType> resultado = confirmacion.showAndWait();
 
         if (resultado.isPresent() && resultado.get() == javafx.scene.control.ButtonType.YES) {
-            // Volver al login
             Navegacion.cambiarAEscena(stageActual, "/Vista/Login.fxml");
         }
     }

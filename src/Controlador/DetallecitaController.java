@@ -37,13 +37,13 @@ public class DetallecitaController {
     private Cita citaActual;
     private ActualizarCallback callback;
     private int idPacienteActual;
-    private Stage stageActual; // 👈 referencia al Stage
+    private Stage stageActual; 
     private Usuario usuarioActual;
 
     public void inicializar(Cita cita, int idPaciente, Usuario usuario, Stage stage, ActualizarCallback callback) {
         this.citaActual = cita;
         this.idPacienteActual = idPaciente;
-        this.usuarioActual = usuario; // 👈 ya lo tienes
+        this.usuarioActual = usuario; 
         this.stageActual = stage;
         this.callback = callback;
         cargarDatos();
@@ -150,17 +150,15 @@ public class DetallecitaController {
                 alert.setContentText("La cita ha sido cancelada exitosamente.");
                 alert.showAndWait();
 
-                // ✅ Ejecutamos el callback para recargar Citas
                 if (callback != null) {
                     callback.onActualizacion();
                 }
 
-                // ✅ Y navegamos de vuelta a Citas
                 Navegacion.cambiarAEscenaConControlador(
                     stageActual,
                     "/Vista/Citas.fxml",
                     (CitasController c) -> 
-                        c.inicializar(idPacienteActual, /*usuario*/ null, stageActual)
+                        c.inicializar(idPacienteActual, null, stageActual)
                 );
 
             } else {
