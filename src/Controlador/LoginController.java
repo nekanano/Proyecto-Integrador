@@ -7,13 +7,11 @@ import javafx.stage.Stage;
 import java.sql.*;
 import java.util.regex.Pattern;
 
-// ✅ Google Guava (funcional)
 import com.google.common.base.Strings;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableSet;
 
-// Logging y Commons (ya los tienes)
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;

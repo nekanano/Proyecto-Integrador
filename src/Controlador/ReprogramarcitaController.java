@@ -49,12 +49,11 @@ public class ReprogramarcitaController {
         fechasreprogramar.getChildren().clear();
         LocalDate hoy = LocalDate.now();
 
-        // Incluir la fecha original como disponible (porque se va a cancelar)
         String query = 
             "SELECT DISTINCT fecha FROM horarios_disponibles " +
             "WHERE id_medico = ? AND fecha >= ? AND estado = 'disponible' " +
             "UNION " +
-            "SELECT ? AS fecha " + // Fecha original
+            "SELECT ? AS fecha " + 
             "ORDER BY fecha LIMIT 7";
 
         try (Connection conn = Conexion.getConnection();
@@ -112,7 +111,6 @@ public class ReprogramarcitaController {
             "SELECT id_horario, hora FROM horarios_disponibles " +
             "WHERE id_medico = ? AND fecha = ? AND estado = 'disponible' ";
 
-        // Si es la fecha original, incluir el horario original
         if (fecha.equals(citaOriginal.getFecha())) {
             query += "UNION SELECT NULL AS id_horario, ? AS hora ";
         }
@@ -132,7 +130,6 @@ public class ReprogramarcitaController {
             DateTimeFormatter horaFormatter = DateTimeFormatter.ofPattern("hh:mm a");
 
             while (rs.next()) {
-                // Para el horario original, no hay id_horario (es NULL)
                 int idHorario = rs.getInt("id_horario");
                 LocalTime hora = rs.getTime("hora").toLocalTime();
                 Button btnHora = crearBotonHora(hora, horaFormatter, idHorario);
@@ -204,14 +201,12 @@ public class ReprogramarcitaController {
             if (conn == null) return false;
             conn.setAutoCommit(false);
 
-            // 1. Cancelar cita original
             String updateCita = "UPDATE citas SET estado = 'cancelada' WHERE id_cita = ?";
             try (PreparedStatement stmt1 = conn.prepareStatement(updateCita)) {
                 stmt1.setInt(1, citaOriginal.getIdCita());
                 stmt1.executeUpdate();
             }
 
-            // 2. Liberar horario original
             String liberarHorario = 
                 "UPDATE horarios_disponibles SET estado = 'disponible' " +
                 "WHERE id_medico = ? AND fecha = ? AND hora = ?";
@@ -222,7 +217,6 @@ public class ReprogramarcitaController {
                 stmt2.executeUpdate();
             }
 
-            // 3. Si es un horario nuevo (no el original), reservarlo
             if (idHorarioSeleccionado != 0) {
                 String reservarHorario = 
                     "UPDATE horarios_disponibles SET estado = 'reservado' WHERE id_horario = ?";
@@ -232,7 +226,6 @@ public class ReprogramarcitaController {
                 }
             }
 
-            // 4. Registrar nueva cita
             String insertCita = 
                 "INSERT INTO citas (id_paciente, id_medico, id_horario, fecha, hora, estado) " +
                 "VALUES (?, ?, ?, ?, ?, 'programada')";

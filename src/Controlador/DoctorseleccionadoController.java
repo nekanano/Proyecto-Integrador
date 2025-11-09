@@ -89,7 +89,6 @@ public class DoctorseleccionadoController {
         contenedorFechas.getChildren().clear();
         LocalDate hoy = LocalDate.now();
 
-        // Busca fechas con horarios disponibles
         String queryFechas = 
             "SELECT DISTINCT fecha FROM horarios_disponibles " +
             "WHERE id_medico = ? AND fecha >= ? AND estado = 'disponible' " +
@@ -182,7 +181,6 @@ public class DoctorseleccionadoController {
         btn.setOnAction(e -> {
             horaSeleccionada = hora;
             idHorarioSeleccionado = idHorario;
-            // Reset estilo
             for (javafx.scene.Node n : contenedorHoras.getChildren()) {
                 if (n instanceof Button) {
                     n.setStyle("-fx-background-color: #f0f9ff; -fx-border-color: #23AAFA; -fx-border-radius: 20; -fx-text-fill: #23AAFA;");
