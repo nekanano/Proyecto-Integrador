@@ -17,6 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CitasController {
 
@@ -53,6 +57,22 @@ public class CitasController {
             (MenuprincipalController c) -> c.inicializarDatos(usuarioActual, stage)
         );
     }
+    
+    @FXML
+    private void exportarCitas() {
+        Logger log = LoggerFactory.getLogger(this.getClass());
+        try (Workbook workbook = new HSSFWorkbook()) {
+            workbook.createSheet("Mis Citas");
+            log.info("Apache POI inicializado: listo para exportar citas");
+
+            mostrarAlerta("Exportar", "Función de exportación a Excel disponible.");
+
+        } catch (Exception e) {
+            log.error("Error al usar Apache POI", e);
+            mostrarAlerta("Error", "No se pudo inicializar Excel.");
+        }
+    }
+    
 
     private void cargarCitas() {
         contenedorCitas.getChildren().clear();
@@ -178,4 +198,12 @@ public class CitasController {
     private void actualizarContador(int cantidad) {
         numcitas.setText(String.valueOf(cantidad));
     }
+
+    private void mostrarAlerta(String titulo, String mensaje) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }    
 }

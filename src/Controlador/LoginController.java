@@ -1,111 +1,115 @@
 package Controlador;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.io.IOException;
+import java.sql.*;
+import java.util.regex.Pattern;
 
+// ✅ Google Guava (funcional)
+import com.google.common.base.Strings;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableSet;
+
+// Logging y Commons (ya los tienes)
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
+
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import Modelo.Usuario;
 import Utilidad.Navegacion;
-import javafx.scene.control.Label;
+import DAO.UsuarioDAO;
 
 public class LoginController {
 
-    @FXML
-    private TextField txtCorreo;
+    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
 
-    @FXML
-    private PasswordField txtPassword;
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+        "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$"
+    );
 
-    @FXML
-    private Button btnregistrar;
-    
-    @FXML
-    private Label lblOlvidaste;
-    
-    @FXML
-    private Label lblRegistrarse;    
-    
-    @FXML
-    private void initialize() {
-        lblOlvidaste.setOnMouseClicked(e -> {
-            Stage stage = (Stage) lblOlvidaste.getScene().getWindow();
-            Navegacion.cambiarAEscena(stage, "/Vista/RecuperarContrasena.fxml");
-        });
-        
-        lblRegistrarse.setOnMouseClicked(e -> {
-            Stage stage = (Stage) lblRegistrarse.getScene().getWindow();
-            Navegacion.cambiarAEscena(stage, "/Vista/Crearcuenta.fxml");
-        });
-    }    
+    @FXML private TextField txtCorreo;
+    @FXML private PasswordField txtPassword;
+    @FXML private Button btnregistrar;
 
     @FXML
     private void handleLogin() {
-        String correo = txtCorreo.getText().trim();
+        String correo = txtCorreo.getText();
         String password = txtPassword.getText();
 
-        if (correo.isEmpty() || password.isEmpty()) {
-            mostrarAlerta("Error", "Por favor ingresa correo y contraseña.");
-            return;
-        }
+        try {
+ 
+            if (Strings.isNullOrEmpty(correo) || Strings.isNullOrEmpty(password)) {
+                mostrarAlerta("Error", "Correo y contraseña son obligatorios.");
+                return;
+            }
 
-        Usuario usuario = autenticarUsuario(correo, password);
-        if (usuario != null) {
-            mostrarAlerta("Éxito", "Inicio de sesión exitoso.");
-            abrirMenuPrincipal(usuario);
-        } else {
-            mostrarAlerta("Error", "Credenciales incorrectas.");
+            if (!EMAIL_PATTERN.matcher(correo.trim()).matches()) {
+                mostrarAlerta("Error", "El correo electrónico no es válido.");
+                return;
+            }
+
+            Preconditions.checkArgument(password.length() >= 6, "La contraseña debe tener al menos 6 caracteres");
+
+            Usuario usuario = autenticarUsuario(correo.trim(), password);
+            if (usuario != null) {
+                log.info("Inicio de sesión exitoso: {}", correo);
+                abrirMenuPrincipal(usuario);
+            } else {
+                log.warn("Credenciales incorrectas: {}", correo);
+                mostrarAlerta("Error", "Credenciales incorrectas.");
+            }
+
+        } catch (IllegalArgumentException e) {
+            log.warn("Validación fallida: {}", e.getMessage());
+            mostrarAlerta("Validación", e.getMessage());
         }
     }
 
     private Usuario autenticarUsuario(String correo, String password) {
-        String query = "SELECT idUsuario, nombre, apellido, correo, dni FROM usuario WHERE correo = ? AND contraseña = ?";
-
-        try (Connection conn = Conexion.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            if (conn == null) return null;
-
-            stmt.setString(1, correo);
-            stmt.setString(2, password);
-
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return new Usuario(rs.getInt("idUsuario"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("correo"), rs.getInt("dni"));
+        UsuarioDAO dao = new UsuarioDAO();
+        try {
+            String storedPassword = dao.obtenerHashPorCorreo(correo);
+            if (storedPassword == null) {
+                log.debug("Usuario no encontrado: {}", correo);
+                return null;
             }
+
+            Usuario usuario = dao.obtenerPorCorreo(correo);
+            if (usuario == null) return null;
+
+            if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2y$") || storedPassword.startsWith("$2b$")) {
+                if (BCrypt.verifyer().verify(password.toCharArray(), storedPassword).verified) {
+                    log.info("Autenticado con BCrypt: {}", correo);
+                    return usuario;
+                }
+            } else if (storedPassword.equals(password)) {
+                log.warn("Autenticado en TEXTO PLANO (migrar a BCrypt): {}", correo);
+                return usuario;
+            }
+
+            log.debug("Contraseña incorrecta para: {}", correo);
+            return null;
+
         } catch (SQLException e) {
-            System.err.println("Error en autenticación: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Error en DAO al autenticar", e);
+            return null;
         }
-        return null;
     }
 
     private void abrirMenuPrincipal(Usuario usuario) {
-        Stage loginStage = (Stage) btnregistrar.getScene().getWindow();
+        Stage stage = (Stage) btnregistrar.getScene().getWindow();
         Navegacion.cambiarAEscenaConControlador(
-            loginStage,
+            stage,
             "/Vista/Menuprincipal.fxml",
-            (MenuprincipalController c) -> c.inicializarDatos(usuario, loginStage)
+            (MenuprincipalController c) -> c.inicializarDatos(usuario, stage)
         );
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+        new Alert(Alert.AlertType.INFORMATION, mensaje).showAndWait();
     }
 }
